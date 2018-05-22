@@ -44,6 +44,15 @@ contract ProofOfRead {
         books[_isbn13] = authors;
     }
 
+    function removeBook(bytes32 _isbn13) public {
+        // Remove a book information from this Contract.
+        // TODO ownerble
+
+        require(isValidIsbn(_isbn13));
+
+        delete books[_isbn13];
+    }
+
     function getAuthors(bytes32 _isbn13) public view returns (address[], uint8) {
         address[] _addressList;
         uint8[] _loyaltyList;
