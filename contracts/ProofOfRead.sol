@@ -130,7 +130,6 @@ contract ProofOfRead is Ownable {
      * @param a2 The array of numbers.
      */
     function isEqualLength(address[] a1, uint8[] a2) private pure returns (bool) {
-        //
         return (a1.length == a2.length);
     }
 
