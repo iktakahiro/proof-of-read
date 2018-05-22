@@ -1,7 +1,6 @@
-import 'openzeppelin-solidity/contracts/ownership/Ownable.sol';
-
-
 pragma solidity 0.4.23;
+
+import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
 
 contract ProofOfRead is Ownable {
@@ -43,8 +42,9 @@ contract ProofOfRead is Ownable {
     }
 
     function addBook(bytes32 _isbn13, address[] _addressList, uint[] _loyaltyList) public onlyOwner {
+        // Add a book information to this Contract.
 
-        require(isValidIsbn(_isbn13));
+        require(isISBN(_isbn13));
         require(_addressList.length <= maxLengthOfAuthors);
         require(isEqualLength(_addressList, _loyaltyList));
         require(isTotal100(_loyaltyList));
@@ -57,14 +57,14 @@ contract ProofOfRead is Ownable {
     function removeBook(bytes32 _isbn13) public onlyOwner {
         // Remove a book information from this Contract.
 
-        require(isValidIsbn(_isbn13));
+        require(isISBN(_isbn13));
 
         delete books[_isbn13];
     }
 
     function getAuthors(bytes32 _isbn13) public view returns (address[], uint8) {
 
-        require(isIsbnExists(_isbn13));
+        require(isISBNExists(_isbn13));
 
         address[] memory _addressList;
         uint8[] memory _loyaltyList;
@@ -83,7 +83,7 @@ contract ProofOfRead is Ownable {
         assert(isActive);
 
         require(isValidScore(_score));
-        require(isIsbnExists(_isbn13));
+        require(isISBNExists(_isbn13));
 
         // TODO split ether
         books[_isbn13].authors[0].transfer(msg.value);
@@ -108,13 +108,14 @@ contract ProofOfRead is Ownable {
         return (a1.length == a2.length);
     }
 
-    function isValidIsbn(bytes32 _isbn13) private pure returns (bool) {
+    function isISBN(bytes32 _isbn13) private pure returns (bool) {
         // Return whether a ISBN is valid.
-        // TODO need to implement
+        // TODO need to implement:
+        // https://github.com/chriso/validator.js/blob/3443132beccddf06c3f0a5e88c1dd2ee6513b612/src/lib/isISBN.js#L7
         return true;
     }
 
-    function isIsbnExists(bytes32 _isbn13) private pure returns (bool) {
+    function isISBNExists(bytes32 _isbn13) private pure returns (bool) {
         // Return whether a ISBN exists.
         return books[_isbn13];
     }
