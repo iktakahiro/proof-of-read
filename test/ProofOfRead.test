@@ -31,20 +31,12 @@ contract ProofOfRead is Ownable {
         maxLengthOfAuthors = 6;
     }
 
-    function setIsActive(bool _isActivate) public onlyOwner {
-        isActive = _isActivate;
+    function activateContract() public onlyOwner {
+        isActive = true;
     }
 
-    function getIsActive() public view onlyOwner returns (bool) {
-        return isActive;
-    }
-
-    function setMaxLengthOfAuthors(uint8 _maxLengthOfAuthors) public onlyOwner {
-        maxLengthOfAuthors = _maxLengthOfAuthors;
-    }
-
-    function getMaxLengthOfAuthors() public view onlyOwner returns (uint8) {
-        return maxLengthOfAuthors;
+    function deactivateContract() public onlyOwner {
+        isActive = false;
     }
 
     function changeMaxLengthOfAuthors(uint8 _maxLength) public onlyOwner {

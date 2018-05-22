@@ -21,18 +21,24 @@ addBook('978-4774196879', ['0x022a0e4340a4b422ca67fb07d1da99a8d0642bc0'], [100])
 ### Init
 
 ```console
-npm i
+$ npm i
 ```
 
 ### Lint
 
 ```console
-npm run lint
+$ npm run lint
+```
+
+### Use truffle develop mode
+
+```console
+$ npm run truffle:dev
 ```
 
 ### Test
 
 ```console
-npm run test
+$ npm run test
 ```
 
