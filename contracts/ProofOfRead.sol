@@ -54,7 +54,7 @@ contract ProofOfRead is Ownable {
     /**
      * @dev Add a book information to this Contract.
      */
-    function addBook(bytes32 _isbn13, address[] _addressList, uint8[] _loyaltyList) public onlyOwner {
+    function addBook(bytes32 _isbn13, address[] _addressList, uint8[] _loyaltyList) public onlyOwner returns(bool) {
 
         require(isISBN(_isbn13));
         require(_addressList.length <= maxLengthOfAuthors);
@@ -64,6 +64,8 @@ contract ProofOfRead is Ownable {
         for (uint8 i = 0; i < _addressList.length; i++) {
             books[_isbn13].authors.push(Author({addr : _addressList[i], loyalty : _loyaltyList[i]}));
         }
+
+        return true;
     }
 
     /**
@@ -121,7 +123,7 @@ contract ProofOfRead is Ownable {
      * @dev Return whether the result of a calculation equal 100.
      * @param a The array of numbers.
      */
-    function isTotal100(uint8[] a) private pure returns (bool) {
+    function isTotal100(uint8[] a) internal pure returns (bool) {
 
         uint8 _total;
 
@@ -138,7 +140,7 @@ contract ProofOfRead is Ownable {
      * @param a1 The array of addresses.
      * @param a2 The array of numbers.
      */
-    function isEqualLength(address[] a1, uint8[] a2) private pure returns (bool) {
+    function isEqualLength(address[] a1, uint8[] a2) internal pure returns (bool) {
         return (a1.length == a2.length);
     }
 
@@ -147,7 +149,7 @@ contract ProofOfRead is Ownable {
      * @param _isbn13 An ISBN code
      * https://github.com/chriso/validator.js/blob/3443132beccddf06c3f0a5e88c1dd2ee6513b612/src/lib/isISBN.js#L7
      */
-    function isISBN(bytes32 _isbn13) private pure returns (bool) {
+    function isISBN(bytes32 _isbn13) internal pure returns (bool) {
         // TODO: need to implement
         _isbn13;
         return true;
@@ -157,7 +159,7 @@ contract ProofOfRead is Ownable {
      * @dev Return whether a ISBN exists.
      * @param _isbn13 An ISBN code
      */
-    function isISBNExists(bytes32 _isbn13) private view returns (bool) {
+    function isISBNExists(bytes32 _isbn13) internal view returns (bool) {
         if (books[_isbn13].authors.length > 0) {
             return true;
         }
@@ -168,7 +170,7 @@ contract ProofOfRead is Ownable {
      * @dev Return whether a score is valid. It should be between 1 and 5.
      * @param _score The score from the reader for books
      */
-    function isValidScore(uint8 _score) private pure returns (bool) {
+    function isValidScore(uint8 _score) internal pure returns (bool) {
         if (_score >= 1 && _score <= 5) {
             return true;
         }
