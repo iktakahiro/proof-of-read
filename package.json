@@ -1,0 +1,25 @@
+{
+  "name": "proof-of-read",
+  "version": "0.9.0",
+  "description": "Experimental Implementation to record your reading history on Ethereum",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/catabira/proof-of-read.git"
+  },
+  "author": "Takahiro Ethan Ikeuchi",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/catabira/proof-of-read/issues"
+  },
+  "homepage": "https://github.com/catabira/proof-of-read#readme",
+  "dependencies": {
+    "zeppelin-solidity": "^1.9.0"
+  },
+  "devDependencies": {
+    "truffle": "^4.1.10"
+  }
+}
