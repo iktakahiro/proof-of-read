@@ -1,7 +1,10 @@
+import 'openzeppelin-solidity/contracts/ownership/Ownable.sol';
+
+
 pragma solidity 0.4.23;
 
 
-contract ProofOfRead {
+contract ProofOfRead is Ownable {
 
     // Author of a Book
     struct Author {
@@ -27,23 +30,19 @@ contract ProofOfRead {
         maxLengthOfAuthors = 6;
     }
 
-    function activateContract() public {
-        // TODO ownerble
+    function activateContract() public onlyOwner {
         isActive = true;
     }
 
-    function deactivateContract() public {
-        // TODO ownerble
+    function deactivateContract() public onlyOwner {
         isActive = false;
     }
 
-    function changeMaxLengthOfAuthors(uint8 _maxLength) public {
-        // TODO ownerble
+    function changeMaxLengthOfAuthors(uint8 _maxLength) public onlyOwner {
         maxLengthOfAuthors = _maxLength;
     }
 
-    function addBook(bytes32 _isbn13, address[] _addressList, uint[] _loyaltyList) public {
-        // TODO ownerble
+    function addBook(bytes32 _isbn13, address[] _addressList, uint[] _loyaltyList) public onlyOwner {
 
         require(isValidIsbn(_isbn13));
         require(_addressList.length <= maxLengthOfAuthors);
@@ -55,9 +54,8 @@ contract ProofOfRead {
         }
     }
 
-    function removeBook(bytes32 _isbn13) public {
+    function removeBook(bytes32 _isbn13) public onlyOwner {
         // Remove a book information from this Contract.
-        // TODO ownerble
 
         require(isValidIsbn(_isbn13));
 
