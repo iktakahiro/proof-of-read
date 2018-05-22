@@ -1,4 +1,4 @@
-pragma solidity 0.4.23;
+pragma solidity 0.4.24;
 
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
@@ -11,23 +11,22 @@ contract ProofOfRead is Ownable {
     // Author of a Book
     struct Author {
         address addr;
-        uint loyalty;
+        uint8 loyalty;
     }
 
     // Book
     struct Book {
-        bytes32 isbn13;
         Author[] authors;
     }
 
     bool public isActive;
     uint8 private maxLengthOfAuthors;
 
-    mapping(bytes32 => Author) public books;
+    mapping(bytes32 => Book) private books;
 
     event Logging (bytes32 _isbn13, address reader, uint8 score);
 
-    function ProofOfRead(bool _isActive) public {
+    constructor(bool _isActive) public {
         isActive = _isActive;
         maxLengthOfAuthors = 6;
     }
@@ -47,14 +46,14 @@ contract ProofOfRead is Ownable {
     /**
      * @dev Add a book information to this Contract.
      */
-    function addBook(bytes32 _isbn13, address[] _addressList, uint[] _loyaltyList) public onlyOwner {
+    function addBook(bytes32 _isbn13, address[] _addressList, uint8[] _loyaltyList) public onlyOwner {
 
         require(isISBN(_isbn13));
         require(_addressList.length <= maxLengthOfAuthors);
         require(isEqualLength(_addressList, _loyaltyList));
         require(isTotal100(_loyaltyList));
 
-        for (var i = 0; i < _addressList.length; i++) {
+        for (uint8 i = 0; i < _addressList.length; i++) {
             books[_isbn13].authors.push(Author({addr : _addressList[i], loyalty : _loyaltyList[i]}));
         }
     }
@@ -74,19 +73,21 @@ contract ProofOfRead is Ownable {
      * @dev Get authors from this Contract.
      * @param _isbn13 An ISBN code
      */
-    function getAuthors(bytes32 _isbn13) public view returns (address[], uint8) {
+    function getAuthors(bytes32 _isbn13) public view returns (address[], uint8[]) {
 
         require(isISBNExists(_isbn13));
 
-        address[] memory _addressList;
-        uint8[] memory _loyaltyList;
-        bytes32 memory _book;
-
+        Book memory _book;
         _book = books[_isbn13];
 
-        for (var i = 0; i < _book.authors.length; i++) {
-            _addressList.push(_book.authors[i].addr);
-            _loyaltyList.push(_book.authors[i].loyalty);
+        uint len = _book.authors.length;
+
+        address[] memory _addressList = new address[](len);
+        uint8[] memory _loyaltyList = new uint8[](len);
+
+        for (uint8 i = 0; i < _book.authors.length; i++) {
+            _addressList[i] = _book.authors[i].addr;
+            _loyaltyList[i] = _book.authors[i].loyalty;
         }
         return (_addressList, _loyaltyList);
     }
@@ -96,16 +97,16 @@ contract ProofOfRead is Ownable {
      * @param _isbn13 An ISBN code
      * @param _score The score from the reader for books
      */
-    function recordReadingHistory(bytes32 _isbn13, uint8 score) public payable {
+    function recordReadingHistory(bytes32 _isbn13, uint8 _score) public payable {
         assert(isActive);
 
         require(isValidScore(_score));
         require(isISBNExists(_isbn13));
 
         // TODO split ether
-        books[_isbn13].authors[0].transfer(msg.value);
+        books[_isbn13].authors[0].addr.transfer(msg.value);
 
-        Logging(_isbn13, msg.sender, score);
+        emit Logging(_isbn13, msg.sender, _score);
     }
 
     /**
@@ -114,11 +115,11 @@ contract ProofOfRead is Ownable {
      */
     function isTotal100(uint8[] a) private pure returns (bool) {
 
-        uint8 memory _total;
+        uint8 _total;
 
         _total = 0;
-        for (var i = 0; i < a.length; i++) {
-            _total = _total + a;
+        for (uint8 i = 0; i < a.length; i++) {
+            _total = _total + a[i];
         }
 
         return (_total == 100);
@@ -140,6 +141,7 @@ contract ProofOfRead is Ownable {
      */
     function isISBN(bytes32 _isbn13) private pure returns (bool) {
         // TODO: need to implement
+        _isbn13;
         return true;
     }
 
@@ -147,8 +149,11 @@ contract ProofOfRead is Ownable {
      * @dev Return whether a ISBN exists.
      * @param _isbn13 An ISBN code
      */
-    function isISBNExists(bytes32 _isbn13) private pure returns (bool) {
-        return books[_isbn13];
+    function isISBNExists(bytes32 _isbn13) private view returns (bool) {
+        if (books[_isbn13].authors.length > 0) {
+            return true;
+        }
+        return false;
     }
 
     /**

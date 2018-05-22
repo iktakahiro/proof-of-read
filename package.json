@@ -4,7 +4,8 @@
   "description": "Experimental Implementation to record your reading history on Ethereum",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "truffle:dev": "truffle develop"
   },
   "repository": {
     "type": "git",
@@ -17,7 +18,7 @@
   },
   "homepage": "https://github.com/catabira/proof-of-read#readme",
   "dependencies": {
-    "zeppelin-solidity": "^1.9.0"
+    "openzeppelin-solidity": "1.9.0"
   },
   "devDependencies": {
     "truffle": "^4.1.10"
