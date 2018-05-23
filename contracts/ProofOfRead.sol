@@ -52,7 +52,7 @@ contract ProofOfRead is Ownable {
     }
 
     /**
-     * @dev Add a book information to this Contract.
+     * @dev Add a book to the Contract.
      */
     function addBook(bytes32 _isbn13, address[] _addressList, uint8[] _loyaltyList) public onlyOwner returns (bool) {
 
@@ -69,7 +69,7 @@ contract ProofOfRead is Ownable {
     }
 
     /**
-     * @dev Remove a book information from this Contract.
+     * @dev Remove a book from the Contract.
      * @param _isbn13 An ISBN code
      */
     function removeBook(bytes32 _isbn13) public onlyOwner {
@@ -79,7 +79,7 @@ contract ProofOfRead is Ownable {
     }
 
     /**
-     * @dev Get authors from this Contract.
+     * @dev Get authors from the Contract.
      * @param _isbn13 An ISBN code
      */
     function getAuthors(bytes32 _isbn13) public view returns (address[], uint8[]) {
@@ -119,7 +119,7 @@ contract ProofOfRead is Ownable {
     }
 
     /**
-     * @dev Return whether the result of a calculation equal 100.
+     * @dev Return whether the result of a calculation is equal to 100.
      * @param a The array of numbers.
      */
     function isTotal100(uint8[] a) internal pure returns (bool) {
@@ -155,7 +155,7 @@ contract ProofOfRead is Ownable {
     }
 
     /**
-     * @dev Return whether a ISBN exists.
+     * @dev Return whether an ISBN exists in the Contract.
      * @param _isbn13 An ISBN code
      */
     function isISBNExists(bytes32 _isbn13) internal view returns (bool) {
