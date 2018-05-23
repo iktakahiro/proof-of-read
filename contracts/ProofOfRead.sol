@@ -54,7 +54,7 @@ contract ProofOfRead is Ownable {
     /**
      * @dev Add a book information to this Contract.
      */
-    function addBook(bytes32 _isbn13, address[] _addressList, uint8[] _loyaltyList) public onlyOwner returns(bool) {
+    function addBook(bytes32 _isbn13, address[] _addressList, uint8[] _loyaltyList) public onlyOwner returns (bool) {
 
         require(isISBN(_isbn13));
         require(_addressList.length <= maxLengthOfAuthors);
@@ -73,7 +73,6 @@ contract ProofOfRead is Ownable {
      * @param _isbn13 An ISBN code
      */
     function removeBook(bytes32 _isbn13) public onlyOwner {
-
         require(isISBN(_isbn13));
 
         delete books[_isbn13];

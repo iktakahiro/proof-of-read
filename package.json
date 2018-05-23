@@ -4,7 +4,7 @@
   "description": "Experimental Implementation to record your reading history on Ethereum",
   "main": "index.js",
   "scripts": {
-    "test": "solium -d contracts/ && exit 1",
+    "test": "solium -d contracts/ && truffle test",
     "lint": "solium -d contracts; exit 0",
     "truffle:dev": "truffle develop"
   },
